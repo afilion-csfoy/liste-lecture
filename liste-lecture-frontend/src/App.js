@@ -1,24 +1,36 @@
-import logo from './logo.svg';
-import './App.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
+import Container from 'react-bootstrap/Container';
+import {
+  BrowserRouter,
+  Routes,
+  Route
+} from 'react-router-dom';
+
+import { BarreNavigation } from './composants/BarreNavigation';
+import { PageAccueil } from './pages/PageAccueil';
+import { PageAdmin } from './pages/PageAdmin';
+import { PageAjouter } from './pages/PageAjouter';
+import { PageModifier } from './pages/PageModifier';
+import { PageRepertoire } from './pages/PageRepertoire';
+import { PageSupprimer } from './pages/PageSupprimer';
+import { Page404 } from './pages/Page404';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Container>
+        <BarreNavigation />
+        <Routes>
+          <Route path="/" element={<PageAccueil />} exact />
+          <Route path="/repertoire" element={<PageRepertoire />} />
+          <Route path="/admin" element={<PageAdmin />} />
+          <Route path="/ajouter" element={<PageAjouter />} />
+          <Route path="/modifier/:id" element={<PageModifier />} />
+          <Route path="/supprimer/:id" element={<PageSupprimer />} />
+          <Route path="*" element={<Page404 />} />
+        </Routes>        
+      </Container>
+    </BrowserRouter>
   );
 }
 
