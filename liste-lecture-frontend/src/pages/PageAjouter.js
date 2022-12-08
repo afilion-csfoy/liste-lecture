@@ -2,7 +2,7 @@ import React from 'react';
 import Button from 'react-bootstrap/Button'
 import { Link } from 'react-router-dom';
 
-import { FormulaireAjouterPiece } from '../composants/FormulaireAjouterPiece';
+import { FormulaireAjouterPiece } from '../composants/FormulaireAjouterPiece.js';
 
 export const PageAjouter = () => {
     return (

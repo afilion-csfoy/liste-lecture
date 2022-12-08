@@ -1,7 +1,7 @@
 import React from 'react';
 import Alert from 'react-bootstrap/Alert'
 
-import { PiecesDansCategorie } from './PiecesDansCategorie';
+import { PiecesDansCategorie } from './PiecesDansCategorie.js';
 
 export const ListePieces = ({ pieces, estAdmin }) => {
     if (pieces?.length) {

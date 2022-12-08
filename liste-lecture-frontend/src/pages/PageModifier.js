@@ -3,7 +3,7 @@ import Button from 'react-bootstrap/Button'
 import { Link } from 'react-router-dom';
 import { useParams } from 'react-router';
 
-import { FormulaireModifierPiece } from '../composants/FormulaireModifierPiece';
+import { FormulaireModifierPiece } from '../composants/FormulaireModifierPiece.js';
 
 export const PageModifier = () => {
     const { id } = useParams();
