@@ -6,14 +6,16 @@ import {
   Route
 } from 'react-router-dom';
 
-import { BarreNavigation } from './composants/BarreNavigation';
-import { PageAccueil } from './pages/PageAccueil';
-import { PageAdmin } from './pages/PageAdmin';
-import { PageAjouter } from './pages/PageAjouter';
-import { PageModifier } from './pages/PageModifier';
-import { PageRepertoire } from './pages/PageRepertoire';
-import { PageSupprimer } from './pages/PageSupprimer';
-import { Page404 } from './pages/Page404';
+import { BarreNavigation } from './composants/BarreNavigation.js';
+import { PageAccueil } from './pages/PageAccueil.js';
+import { PageAdmin } from './pages/PageAdmin.js';
+import { PageAjouter } from './pages/PageAjouter.js';
+import { PageCreerUtilisateur } from './pages/PageCreerUtilisateur.js';
+import { PageModifier } from './pages/PageModifier.js';
+import { PageRepertoire } from './pages/PageRepertoire.js';
+import { PageSeConnecter } from './pages/PageSeConnecter.js';
+import { PageSupprimer } from './pages/PageSupprimer.js';
+import { Page404 } from './pages/Page404.js';
 
 function App() {
   return (
@@ -25,6 +27,8 @@ function App() {
           <Route path="/repertoire" element={<PageRepertoire />} />
           <Route path="/admin" element={<PageAdmin />} />
           <Route path="/ajouter" element={<PageAjouter />} />
+          <Route path="/seConnecter" element={<PageSeConnecter />} />
+          <Route path="/creerUtilisateur" element={<PageCreerUtilisateur />} />
           <Route path="/modifier/:id" element={<PageModifier />} />
           <Route path="/supprimer/:id" element={<PageSupprimer />} />
           <Route path="*" element={<Page404 />} />
