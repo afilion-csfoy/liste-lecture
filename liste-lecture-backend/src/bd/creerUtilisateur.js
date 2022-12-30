@@ -22,7 +22,7 @@ export function creerUtilisateur(requete, reponse) {
                 const infosNouvelUtilisateur = {
                     age: '',
                     pays: '',
-                    acompteVerifie: false
+                    compteVerifie: false
                 }
 
                 const resultat = await db.collection('utilisateurs').insertOne({
@@ -32,7 +32,24 @@ export function creerUtilisateur(requete, reponse) {
                 });
                 const { insertedId } = resultat;
 
-                reponse.status(200).send("Utilisateur ajouté");
+                // Génère un JSON web token à partir des informations de l'utilisateur
+                // sauf le mot de passe
+                jwt.sign({
+                    id: insertedId,
+                    nomUtilisateur,
+                    infos: infosNouvelUtilisateur
+                },
+                process.env.JWT_SECRET,
+                {
+                    expiresIn: '2d',
+                },
+                (erreur, token) => {
+                    if (erreur) {
+                        return reponse.status(500).send(erreur);
+                    }
+                    reponse.status(200).json({ token });
+                }
+                )
             }
 
         }, reponse).catch(
