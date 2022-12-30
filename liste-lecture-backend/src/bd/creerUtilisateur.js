@@ -45,11 +45,12 @@ export function creerUtilisateur(requete, reponse) {
                 },
                 (erreur, token) => {
                     if (erreur) {
-                        return reponse.status(500).send(erreur);
+                        reponse.status(500).send(erreur);
                     }
-                    reponse.status(200).json({ token });
-                }
-                )
+                    else {
+                        reponse.status(200).json({ token });
+                    }
+                });
             }
 
         }, reponse).catch(
