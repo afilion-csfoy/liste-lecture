@@ -1,12 +1,12 @@
 import React from 'react';
 import { Navigate } from 'react-router-dom';
 
-import { useUtilisateur } from './useUtilisateur.js';
+import { UtiliseAuth } from './auth.js';
 
 export const RoutePrivee = ({ children }) => {
-    const utilisateur = useUtilisateur();
+    const { utilisateurConnecte } = UtiliseAuth();
 
-    if (!utilisateur) {
+    if (!utilisateurConnecte) {
         return <Navigate to="/seConnecter" />;
     }
     else {

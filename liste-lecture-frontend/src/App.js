@@ -1,5 +1,8 @@
+import React, { useState } from 'react';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import {
   BrowserRouter,
   Routes,
@@ -7,6 +10,7 @@ import {
 } from 'react-router-dom';
 
 import { BarreNavigation } from './composants/BarreNavigation.js';
+import { OutilConnection } from './authentification/OutilConnection.js';
 import { PageAccueil } from './pages/PageAccueil.js';
 import { PageAdmin } from './pages/PageAdmin.js';
 import { PageAjouter } from './pages/PageAjouter.js';
@@ -17,11 +21,23 @@ import { PageSeConnecter } from './pages/PageSeConnecter.js';
 import { PageSupprimer } from './pages/PageSupprimer.js';
 import { Page404 } from './pages/Page404.js';
 import { RoutePrivee } from './authentification/RoutePrivee.js';
+import { ContexteAuth } from './authentification/auth';
+import { useUtilisateur } from './authentification/useUtilisateur.js';
 
 function App() {
+  const utilisateur = useUtilisateur();
+  const [utilisateurConnecte, setUtilisateurConnecte] = useState(utilisateur);
   return (
+    <ContexteAuth.Provider value={{
+      utilisateurConnecte, setUtilisateurConnecte
+    }}>
     <BrowserRouter>
       <Container>
+        <Row className="text-end">
+          <Col>
+            <OutilConnection />
+          </Col>
+        </Row>
         <BarreNavigation />
         <Routes>
           <Route path="/" element={<PageAccueil />} exact />
@@ -52,6 +68,7 @@ function App() {
         </Routes>
       </Container>
     </BrowserRouter>
+    </ContexteAuth.Provider>
   );
 }
 

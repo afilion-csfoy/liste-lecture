@@ -8,9 +8,11 @@ import Stack from 'react-bootstrap/Stack';
 import { Link, Navigate } from 'react-router-dom';
 
 import { useToken } from '../authentification/useToken.js';
+import { UtiliseAuth } from '../authentification/auth.js';
 
 export const PageSeConnecter = () => {
     const [, setToken] = useToken();
+    const { setUtilisateurConnecte } = UtiliseAuth();
 
     const [nomUtilisateur, setNomUtilisateur] = useState('');
     const [motDePasse, setMotDePasse] = useState('');
@@ -18,6 +20,11 @@ export const PageSeConnecter = () => {
     const [messageErreur, setMessageErreur] = useState('');
 
     const [redirigerAcceuil, setRedirigerAcceuil] = useState(false);
+
+    const lirePayloadDuToken = token => {
+        const payloadEncode = token.split('.')[1];
+        return JSON.parse(atob(payloadEncode));
+    }
 
     const onClickConnecter = async () => {
         const resultat = await fetch(`/api/utilisateurs/connecter`, {
@@ -31,6 +38,7 @@ export const PageSeConnecter = () => {
         if (resultat.status === 200) {
             const { token: tokenRecu } = await resultat.json().catch((error) => { console.log(error) });
             setToken(tokenRecu);
+            setUtilisateurConnecte(lirePayloadDuToken(tokenRecu));
             setRedirigerAcceuil(true);
         }
         else {
