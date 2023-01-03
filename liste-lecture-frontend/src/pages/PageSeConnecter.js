@@ -5,23 +5,43 @@ import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+
+import { useToken } from '../authentification/useToken.js';
 
 export const PageSeConnecter = () => {
+    const [, setToken] = useToken();
+
     const [nomUtilisateur, setNomUtilisateur] = useState('');
     const [motDePasse, setMotDePasse] = useState('');
 
     const [messageErreur, setMessageErreur] = useState('');
 
-    const [redirigerNouvelUtilisateur, setRedirigerNouvelUtilisateur] = useState(false);
+    const [redirigerAcceuil, setRedirigerAcceuil] = useState(false);
 
     const onClickConnecter = async () => {
-        alert('log in click')
+        const resultat = await fetch(`/api/utilisateurs/connecter`, {
+            method: 'post',
+            body: JSON.stringify({ nomUtilisateur, motDePasse }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (resultat.status === 200) {
+            const { token: tokenRecu } = await resultat.json().catch((error) => { console.log(error) });
+            setToken(tokenRecu);
+            setRedirigerAcceuil(true);
+        }
+        else {
+            setMessageErreur("Le nom et le mot de passe sont incorrects.");
+        }
+
     };
 
     return (
         <>
-            { redirigerNouvelUtilisateur ? <Navigate to="/creerUtilisateur" /> : null }
+            {redirigerAcceuil ? <Navigate to="/" /> : null}
             <Row className="justify-content-md-center">
                 <Col md="6" lg="4">
                     <h1>Se connecter</h1>
@@ -47,20 +67,22 @@ export const PageSeConnecter = () => {
                         <Stack gap={2}>
                             <Button
                                 variant="primary"
-                                type="submit"
+                                type="button"
                                 disabled={!nomUtilisateur || !motDePasse}
                                 onClick={onClickConnecter}
                             >
                                 Se connecter
                             </Button>
 
-                            <Button
-                                variant="outline-primary"
-                                type="button"
-                                onClick={() => setRedirigerNouvelUtilisateur(true)}
-                            >
-                                Créer un nouvel utilisateur
-                            </Button>
+                            <Link to="/creerUtilisateur">
+                                <Button
+                                    variant="outline-primary"
+                                    type="button"
+                                    className="w-100"
+                                >
+                                    Créer un nouvel utilisateur
+                                </Button>
+                            </Link>
                         </Stack>
 
                     </Form>
