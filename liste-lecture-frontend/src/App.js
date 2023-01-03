@@ -31,11 +31,23 @@ function App() {
               <PageAdmin />
             </RoutePrivee>
           } />
-          <Route path="/ajouter" element={<PageAjouter />} />
+          <Route path="/ajouter" element={
+            <RoutePrivee>
+              <PageAjouter />
+            </RoutePrivee>
+          } />
           <Route path="/seConnecter" element={<PageSeConnecter />} />
           <Route path="/creerUtilisateur" element={<PageCreerUtilisateur />} />
-          <Route path="/modifier/:id" element={<PageModifier />} />
-          <Route path="/supprimer/:id" element={<PageSupprimer />} />
+          <Route path="/modifier/:id" element={
+            <RoutePrivee>
+              <PageModifier />
+            </RoutePrivee>
+          } />
+          <Route path="/supprimer/:id" element={
+            <RoutePrivee>
+              <PageSupprimer />
+            </RoutePrivee>
+          } />
           <Route path="*" element={<Page404 />} />
         </Routes>
       </Container>
