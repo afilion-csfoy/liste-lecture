@@ -1,8 +1,10 @@
 import React from 'react';
-import { Navigate, Route } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
+
+import { useUtilisateur } from './useUtilisateur.js';
 
 export const RoutePrivee = ({ children }) => {
-    const utilisateur = null;
+    const utilisateur = useUtilisateur();
 
     if (!utilisateur) {
         return <Navigate to="/seConnecter" />;
