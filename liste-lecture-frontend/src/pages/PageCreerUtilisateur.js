@@ -5,9 +5,13 @@ import Form from 'react-bootstrap/Form';
 import Alert from 'react-bootstrap/Alert';
 import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
-import { Navigate } from 'react-router-dom';
+import { Link, Navigate } from 'react-router-dom';
+
+import { useToken } from '../authentification/useToken.js';
 
 export const PageCreerUtilisateur = () => {
+    const [, setToken] = useToken();
+
     const [nomUtilisateur, setNomUtilisateur] = useState('');
     const [motDePasse, setMotDePasse] = useState('');
     const [confirmationMotDePasse, setConfirmationMotDePasse] = useState('');
@@ -17,12 +21,27 @@ export const PageCreerUtilisateur = () => {
     const [redirigerConnection, setRedirigerConnection] = useState(false);
 
     const onClickCreerUtilisateur = async () => {
-        alert('sign up click')
+        const resultat = await fetch(`/api/utilisateurs/creer`, {
+            method: 'post',
+            body: JSON.stringify({ nomUtilisateur, motDePasse }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+
+        if (resultat.status === 200) {
+            const { token: tokenRecu } = await resultat.json().catch((error) => { console.log(error) });
+            setToken(tokenRecu);
+            setRedirigerConnection(true);
+        }
+        else {
+            setMessageErreur("L'utilisateur existe déjà");
+        }
     };
 
     return (
         <>
-            { redirigerConnection && <Navigate to="/seConnecter" /> }
+            {redirigerConnection && <Navigate to="/repertoire" />}
             <Row className="justify-content-md-center">
                 <Col md="6" lg="4">
                     <h1>Créer un nouvel utilisateur</h1>
@@ -58,7 +77,7 @@ export const PageCreerUtilisateur = () => {
                         <Stack gap={2}>
                             <Button
                                 variant="primary"
-                                type="submit"
+                                type="button"
                                 disabled={!nomUtilisateur || !motDePasse
                                     || motDePasse !== confirmationMotDePasse}
                                 onClick={onClickCreerUtilisateur}
@@ -66,13 +85,15 @@ export const PageCreerUtilisateur = () => {
                                 Créer utilisateur
                             </Button>
 
-                            <Button
-                                variant="outline-primary"
-                                type="button"
-                                onClick={() => setRedirigerConnection(true)}
-                            >
-                                Vous avez déjà un utilisateur? Se connecter
-                            </Button>
+                            <Link to="/seConnecter">
+                                <Button
+                                    variant="outline-primary"
+                                    type="button"
+                                    className="w-100"
+                                >
+                                    Vous avez déjà un utilisateur? Se connecter
+                                </Button>
+                            </Link>
                         </Stack>
                     </Form>
                 </Col>
