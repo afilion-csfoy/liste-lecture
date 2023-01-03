@@ -20,6 +20,7 @@ export const ListePieces = ({ pieces, estAdmin }) => {
                 {categories.map((categorie) => {
                     const piecesAssociees = pieces.filter((piece) => piece.categorie === categorie);
                     return <PiecesDansCategorie 
+                                key={categorie}
                                 categorie={categorie} 
                                 pieces={piecesAssociees} 
                                 estAdmin={estAdmin}
