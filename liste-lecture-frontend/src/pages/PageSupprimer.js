@@ -7,13 +7,20 @@ import Button from 'react-bootstrap/Button';
 import { Link, Navigate } from 'react-router-dom';
 import { useParams } from 'react-router';
 
+import { useToken } from '../authentification/useToken.js';
+
 export const PageSupprimer = () => {
+    const [token] = useToken();
+
     const { id } = useParams();
     const [rediriger, setRediriger] = useState(false);
 
     const confirmerSuppression = async () => {
         await fetch(`/api/pieces/supprimer/${id}`, {
             method: 'delete',
+            headers: {
+                'Authorization': `Bearer ${token}`
+            }
         });
         
         setRediriger(true);

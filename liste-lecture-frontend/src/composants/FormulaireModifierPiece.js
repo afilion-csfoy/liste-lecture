@@ -6,8 +6,11 @@ import {
 import { Navigate } from 'react-router-dom';
 
 import { FormulairePiece } from './FormulairePiece.js';
+import { useToken } from '../authentification/useToken.js';
 
 export const FormulaireModifierPiece = ({ id }) => {
+    const [token] = useToken();
+
     const [titre, setTitre] = useState('');
     const [artiste, setArtiste] = useState('');
     const [categorie, setCategorie] = useState('');
@@ -30,7 +33,8 @@ export const FormulaireModifierPiece = ({ id }) => {
             method: 'put',
             body: JSON.stringify({ titre, artiste, categorie }),
             headers: {
-                'Content-Type': 'application/json'
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
             }
         });
         setRediriger(true);
