@@ -7,10 +7,12 @@ import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
 import { Link, Navigate } from 'react-router-dom';
 
-import { useToken } from '../authentification/useToken.js';
+import { useToken, lirePayloadDuToken } from '../authentification/useToken.js';
+import { UtiliseAuth } from '../authentification/auth.js';
 
 export const PageCreerUtilisateur = () => {
     const [, setToken] = useToken();
+    const { setUtilisateurConnecte } = UtiliseAuth();
 
     const [nomUtilisateur, setNomUtilisateur] = useState('');
     const [motDePasse, setMotDePasse] = useState('');
@@ -32,6 +34,7 @@ export const PageCreerUtilisateur = () => {
         if (resultat.status === 200) {
             const { token: tokenRecu } = await resultat.json().catch((error) => { console.log(error) });
             setToken(tokenRecu);
+            setUtilisateurConnecte(lirePayloadDuToken(tokenRecu));
             setRedirigerConnection(true);
         }
         else {
