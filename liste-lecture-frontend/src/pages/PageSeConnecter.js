@@ -7,7 +7,7 @@ import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
 import { Link, Navigate } from 'react-router-dom';
 
-import { useToken } from '../authentification/useToken.js';
+import { useToken, lirePayloadDuToken } from '../authentification/useToken.js';
 import { UtiliseAuth } from '../authentification/auth.js';
 
 export const PageSeConnecter = () => {
@@ -20,11 +20,6 @@ export const PageSeConnecter = () => {
     const [messageErreur, setMessageErreur] = useState('');
 
     const [redirigerAcceuil, setRedirigerAcceuil] = useState(false);
-
-    const lirePayloadDuToken = token => {
-        const payloadEncode = token.split('.')[1];
-        return JSON.parse(atob(payloadEncode));
-    }
 
     const onClickConnecter = async () => {
         const resultat = await fetch(`/api/utilisateurs/connecter`, {

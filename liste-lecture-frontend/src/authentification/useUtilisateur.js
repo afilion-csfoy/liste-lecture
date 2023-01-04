@@ -1,14 +1,9 @@
 import { useState, useEffect } from 'react';
 
-import { useToken } from './useToken.js';
+import { useToken, lirePayloadDuToken } from './useToken.js';
 
 export const useUtilisateur = () => {
     const [token] = useToken();
-
-    const lirePayloadDuToken = token => {
-        const payloadEncode = token.split('.')[1];
-        return JSON.parse(atob(payloadEncode));
-    }
 
     const [utilisateur, setUtilisateur] = useState(() => {
         if (!token) {

@@ -16,3 +16,8 @@ export const useToken = () => {
 
     return [token, setToken];
 };
+
+export const lirePayloadDuToken = token => {
+    const payloadEncode = token.split('.')[1];
+    return JSON.parse(atob(payloadEncode));
+}
